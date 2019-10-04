@@ -5,18 +5,24 @@ public class Customer {
 	private static int MAX_ACCOUNTS = 10;
 	private String name;
 	private int nr;
-	private int numAccounts;
+	private int numAccounts = 0;
 	private String password;
 	
 	Customer(int nr, String name, String password){
 		this.nr = nr;
 		this.name = name;
 		this.password = password;
+		this.accounts = new Account[MAX_ACCOUNTS];
 	}
 	
 	public boolean addAccount(Account account) {
-		// TODO: implement this method
-		return false;
+		boolean success = false;
+		if(this.numAccounts < Customer.MAX_ACCOUNTS) {
+			this.accounts[this.numAccounts] = account;
+			this.numAccounts++;
+			success = true;
+		}
+		return success;
 	}
 	
 	public boolean checkPassword(String password) {
@@ -37,12 +43,16 @@ public class Customer {
 	
 	public double getTotalBalance() {
 		// TODO: implement this method
-		return 0;
+		double totalBalance = 0;
+		for(int i=0; i<this.numAccounts; i++) {
+			totalBalance = this.accounts[i].getBalance();
+		}
+		return totalBalance;
 	}
 	
 	public String toString() {
 		// TODO: implement this method
-		return "";
+		return "[" + this.nr + ", " + this.name + ", " + this.numAccounts + "]";
 	}
 	
 	

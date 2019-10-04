@@ -20,11 +20,8 @@ public class Account {
 		return this.pin.equals(pin);
 	}
 	
-	public boolean deposit(double amount) {
-		// TODO: is this correct?
-		double oldBalance = this.balance;
+	public void deposit(double amount) {
 		this.balance += amount;
-		return this.balance == oldBalance + amount;
 	}
 	
 	public double getBalance() {
@@ -36,10 +33,13 @@ public class Account {
 	}
 	
 	public boolean withdraw(double amount) {
-		// TODO: is this correct?
-		double oldBalance = this.balance;
-		this.balance=-amount;
-		return this.balance == oldBalance - amount;
+		boolean success = false;
+		double tmp = this.balance - amount;
+		if (tmp >= 0) {
+			this.balance = tmp;
+			success = true;
+		}
+		return success;
 	}
 	
 	public String toString() {

@@ -2,11 +2,12 @@ package classes;
 
 public class Account {
 	private double balance;
+	private static double ZERO_BALANCE = 0;
 	private int nr;
 	private String pin;
 	
 	Account(int nr, String pin){
-		this(nr, pin, 0);
+		this(nr, pin, ZERO_BALANCE);
 	}
 	
 	Account(int nr, String pin, double balance){

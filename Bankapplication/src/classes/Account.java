@@ -21,8 +21,10 @@ public class Account {
 	}
 	
 	public boolean deposit(double amount) {
-		// TODO: implement this method
-		return false;
+		// TODO: is this correct?
+		double oldBalance = this.balance;
+		this.balance += amount;
+		return this.balance == oldBalance + amount;
 	}
 	
 	public double getBalance() {
@@ -34,13 +36,14 @@ public class Account {
 	}
 	
 	public boolean withdraw(double amount) {
-		// TODO: implement this method
-		return false;
+		// TODO: is this correct?
+		double oldBalance = this.balance;
+		this.balance=-amount;
+		return this.balance == oldBalance - amount;
 	}
 	
 	public String toString() {
-		// TODO: implement this method
-		return "";
+		return "[" + nr + ", " + balance + "]";
 	}
 	
 }

@@ -1,58 +1,107 @@
 package classes;
 
+/**
+ * Class Customer
+ * @author oherz
+ *
+ */
 public class Customer {
-	private Account[] accounts;
-	private static int MAX_ACCOUNTS = 10;
-	private String name;
-	private int nr;
-	private int numAccounts = 0;
+	
+	static final int MAX_ACCOUNTS = 10;
+	
+	private final Account[] accounts;
+	private final String name;
+	private final int nr;
+	private int numAccounts;
 	private String password;
 	
-	Customer(int nr, String name, String password){
+	/**
+	 * Constructor of the Customer class
+	 * @param nr
+	 * @param name
+	 * @param password
+	 */
+	public Customer(int nr, String name, String password){
+		// this -> Pointer auf aktuelle Instanz der Klasse
 		this.nr = nr;
 		this.name = name;
-		this.password = password;
+		this.password = (password==null)?"" : password;
 		this.accounts = new Account[MAX_ACCOUNTS];
+		this.numAccounts = 0;
 	}
 	
-	public boolean addAccount(Account account) {
-		boolean success = false;
-		if(this.numAccounts < Customer.MAX_ACCOUNTS) {
-			this.accounts[this.numAccounts] = account;
-			this.numAccounts++;
-			success = true;
-		}
-		return success;
-	}
-	
-	public boolean checkPassword(String password) {
-		return this.password.equals(password);
-	}
-	
+	/**
+	 * Return all accounts of the customer
+	 * @return
+	 */
 	public Account[] getAccounts() {
-		return this.accounts;
+		/*
+		 * Don't do 'return this.accounts'! In this case you will return
+		 * the pointer to the accounts-array and you can override 
+		 * the variables inside the array form the outside.
+		 */
+		Account[] rtrnArray = new Account[this.numAccounts+1];
+		for(int i=0; i<=this.numAccounts; i++) {
+			rtrnArray[i] = this.accounts[i];
+		}
+		return rtrnArray;
 	}
 
+	
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public int getNr() {
 		return this.nr;
 	}
 	
+	/**
+	 * Add new account to the customer
+	 * @param account
+	 * @return
+	 */
+	public boolean addAccount(Account account) {
+		if(this.numAccounts >= MAX_ACCOUNTS || account == null) {
+			return false;
+		}
+		this.accounts[this.numAccounts++] = account;
+		return true;
+	}
+	
+	/**
+	 * Check typed password
+	 * @param password
+	 * @return
+	 */
+	public boolean checkPassword(String password) {
+		return this.password.equals(password);
+	}
+	
+	/**
+	 * Get the total balance over all accounts
+	 * @return
+	 */
 	public double getTotalBalance() {
-		// TODO: implement this method
 		double totalBalance = 0;
 		for(int i=0; i<this.numAccounts; i++) {
-			totalBalance = this.accounts[i].getBalance();
+			totalBalance += this.accounts[i].getBalance();
 		}
 		return totalBalance;
 	}
 	
 	public String toString() {
-		// TODO: implement this method
-		return "[" + this.nr + ", " + this.name + ", " + this.numAccounts + "]";
+		String s = "Customer: " +
+				"nr=" + this.nr + ", "+
+				"name=" + this.name + ", " +
+				"totalBalance=" + String.format("%.2f\n", this.getTotalBalance());
+		
+		for(Account account : this.accounts) {
+			if(account != null) {
+				s += " - " + account.toString();
+			}
+		}
+		return s;
 	}
 	
 	

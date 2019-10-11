@@ -1,18 +1,22 @@
 package classes;
 
+/**
+ * Class Account
+ * @author oherz
+ *
+ */
 public class Account {
 	private double balance;
-	private static double ZERO_BALANCE = 0;
-	private int nr;
+	private final int nr;
 	private String pin;
 	
-	Account(int nr, String pin){
-		this(nr, pin, ZERO_BALANCE);
+	public Account(int nr, String pin){
+		this(nr, pin, 0);
 	}
 	
-	Account(int nr, String pin, double balance){
+	public Account(int nr, String pin, double balance){
 		this.nr = nr;
-		this.pin = pin;
+		this.pin = (pin == null)? "" : pin;
 		this.balance = balance;
 	}
 	
@@ -20,8 +24,17 @@ public class Account {
 		return this.pin.equals(pin);
 	}
 	
-	public void deposit(double amount) {
+	/**
+	 * Deposit money to the account
+	 * @param amount
+	 * @return
+	 */
+	public boolean deposit(double amount) {
+		if(amount < 0) {
+			return false;
+		}
 		this.balance += amount;
+		return true;
 	}
 	
 	public double getBalance() {
@@ -33,17 +46,18 @@ public class Account {
 	}
 	
 	public boolean withdraw(double amount) {
-		boolean success = false;
-		double tmp = this.balance - amount;
-		if (tmp >= 0) {
-			this.balance = tmp;
-			success = true;
+		if(amount<0) {
+			return false;
 		}
-		return success;
+		this.balance -= amount;
+		return true;
 	}
 	
 	public String toString() {
-		return "[" + nr + ", " + balance + "]";
+		String s = "Account: " +
+				"nr=" + this.nr + ", " +
+				"balance=" + String.format("%.2f\n", this.balance);
+		return s;
 	}
 	
 }

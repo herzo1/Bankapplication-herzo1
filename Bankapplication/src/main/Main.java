@@ -1,22 +1,33 @@
 package main;
 
 import classes.Account;
+import classes.Bank;
 import classes.Customer;
 
 public class Main {
 	public static void main(String[] args) {
-		Customer bob = new Customer(1 , "Bob", "alice85");
-		Account acc1 = new Account(1, "1234", 1000);
-		Account acc2 = new Account(2, "1234", 10000);
-		Account acc3 = new Account(3, "1234", 100000);
+		Bank baloise = new Bank("baloise");
 		
-		bob.addAccount(acc1);
-		bob.addAccount(acc2);
-		bob.addAccount(acc3);
+		Customer customerOli = baloise.registerCustomer("Oli", "123");
 		
-		Account[] arrs = bob.getAccounts();
-		arrs[0] = null;
+		System.out.println(customerOli);
 		
-		System.out.println(bob);
+		Account accOli1 = baloise.openAccount(customerOli, "1234");
+		Account accOli2 = baloise.openAccount(customerOli, "1234");
+		
+		System.out.println(customerOli);
+		
+		baloise.deposit(accOli1.getNr(), 10000);
+		baloise.deposit(accOli2.getNr(), 50000);
+		
+		System.out.println(customerOli);
+		
+		baloise.transfer(accOli2.getNr(), accOli1.getNr(), 10000);
+		
+		System.out.println(customerOli);
+		
+		
+		
+		
 	}
 }

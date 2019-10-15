@@ -10,6 +10,11 @@ public class Account {
 	private final int nr;
 	private String pin;
 	
+	/**
+	 * Constructs a bank account.
+	 * @param nr
+	 * @param pin
+	 */
 	public Account(int nr, String pin){
 		this(nr, pin, 0);
 	}
@@ -46,7 +51,7 @@ public class Account {
 	}
 	
 	public boolean withdraw(double amount) {
-		if(amount<0) {
+		if(amount < 0) {
 			return false;
 		}
 		this.balance -= amount;

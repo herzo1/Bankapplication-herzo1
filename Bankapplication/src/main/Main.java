@@ -22,12 +22,9 @@ public class Main {
 		
 		System.out.println(customerOli);
 		
-		baloise.transfer(accOli2.getNr(), accOli1.getNr(), 10000);
+		baloise.transfer(accOli2.getNr(),"1234", accOli1.getNr(), 10000);
 		
 		System.out.println(customerOli);
-		
-		
-		
 		
 	}
 }

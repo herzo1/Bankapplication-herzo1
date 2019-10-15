@@ -2,7 +2,7 @@ package classes;
 
 /**
  * Class Customer
- * @author oherz
+ * @author Oliver.Herzig
  *
  */
 public class Customer {
@@ -16,13 +16,12 @@ public class Customer {
 	private String password;
 	
 	/**
-	 * Constructor of the Customer class
-	 * @param nr
-	 * @param name
-	 * @param password
+	 * Constructs a bank customer.
+	 * @param nr - the customer number
+	 * @param name - the customer name
+	 * @param password - the password of the customer
 	 */
 	public Customer(int nr, String name, String password){
-		// this -> Pointer auf aktuelle Instanz der Klasse
 		this.nr = nr;
 		this.name = name;
 		this.password = (password==null)?"" : password;
@@ -31,8 +30,8 @@ public class Customer {
 	}
 	
 	/**
-	 * Return all accounts of the customer
-	 * @return
+	 * Gets the accounts of the customer.
+	 * @return the customer accounts
 	 */
 	public Account[] getAccounts() {
 		/*
@@ -47,19 +46,26 @@ public class Customer {
 		return rtrnArray;
 	}
 
-	
+	/**
+	 * Gets the name of the customer.
+	 * @return the customer name
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Gets the number of the customer.
+	 * @return the customer number
+	 */
 	public int getNr() {
 		return this.nr;
 	}
 	
 	/**
-	 * Add new account to the customer
-	 * @param account
-	 * @return
+	 * Adds an account to the customer.
+	 * @param account - the account to be added
+	 * @return true if the addition was successful, false otherwise
 	 */
 	public boolean addAccount(Account account) {
 		if(this.numAccounts >= MAX_ACCOUNTS || account == null) {
@@ -70,17 +76,17 @@ public class Customer {
 	}
 	
 	/**
-	 * Check typed password
-	 * @param password
-	 * @return
+	 * Checks the password of the customer.
+	 * @param password - the password to check
+	 * @return true if the password is valid, false otherwise
 	 */
 	public boolean checkPassword(String password) {
 		return this.password.equals(password);
 	}
 	
 	/**
-	 * Get the total balance over all accounts
-	 * @return
+	 * Gets the total balance of the accounts.
+	 * @return the total balance
 	 */
 	public double getTotalBalance() {
 		double totalBalance = 0;
@@ -90,6 +96,10 @@ public class Customer {
 		return totalBalance;
 	}
 	
+	/**
+	 * Generates a string representation of the customer.
+	 * @return a string representing the customer
+	 */
 	public String toString() {
 		String s = "Customer: " +
 				"nr=" + this.nr + ", "+

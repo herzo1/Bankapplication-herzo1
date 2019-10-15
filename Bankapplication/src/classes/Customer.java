@@ -2,7 +2,7 @@ package classes;
 
 /**
  * Class Customer
- * @author oherz
+ * @author Oliver.Herzig
  *
  */
 public class Customer {

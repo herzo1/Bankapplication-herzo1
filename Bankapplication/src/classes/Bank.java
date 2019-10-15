@@ -1,7 +1,7 @@
 package classes;
 
 /**
- * 
+ * Class Bank
  * @author Oliver.Herzig
  *
  */
@@ -76,7 +76,7 @@ public class Bank {
 	 * @param pin - the PIN of the debit account
 	 * @param creditAccountNr - the number of the credit account
 	 * @param amount - the amount of money to withdraw
-	 * @return true if the amount has been transferred, false if an error occurred
+	 * @return true if the amount has been transfered, false if an error occurred
 	 */
 	public boolean transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) {
 		if(!this.validateAccountNr(debitAccountNr) || !this.validateAccountNr(creditAccountNr)) {
@@ -105,7 +105,7 @@ public class Bank {
 	/**
 	 * Validate if the given accountNr is an actual account.
 	 * @param accountNr - the account number
-	 * @return true if valid accountNr, false if not
+	 * @return true if valid accountNr, false otherwise
 	 */
 	private boolean validateAccountNr(int accountNr) {
 		return accountNr <= this.numAccounts && accountNr >= 0;
@@ -114,7 +114,7 @@ public class Bank {
 	/**
 	 * Validate if the given customerNr is an actual customer.
 	 * @param customerNr - the customer number
-	 * @return true if valid customerNr, false if not
+	 * @return true if valid customerNr, false otherwise
 	 */
 	private boolean validateCustomerNr(int customerNr) {
 		return customerNr <= this.numCustomers && customerNr >= 0;

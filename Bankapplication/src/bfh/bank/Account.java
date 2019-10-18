@@ -1,4 +1,4 @@
-package classes;
+package bfh.bank;
 
 /**
  * Class Account
@@ -45,7 +45,7 @@ public class Account {
 	 * @param amount - the amount of money to deposit
 	 * @return true if the deposit was successful, false otherwise
 	 */
-	public boolean deposit(double amount) {
+	protected boolean deposit(double amount) {
 		if(amount < 0) {
 			return false;
 		}

@@ -1,4 +1,4 @@
-package classes;
+package bfh.bank;
 
 /**
  * Class Bank
@@ -7,7 +7,7 @@ package classes;
  */
 public class Bank {
 	
-	public static final int MAX_ACCOUNTS = 100;
+	public static final int MAX_ACCOUNTS = 1000;
 	public static final int MAX_CUSTOMERS = 100;
 	
 	private Account[] accounts;
@@ -45,11 +45,8 @@ public class Bank {
 	 * @return true if the amount has been deposited, or false if an error occurred
 	 */
 	public boolean deposit(int accountNr, double amount) {
-		if(!validateAccountNr(accountNr)) {
-			return false;
-		}
 		Account acc = this.findAccount(accountNr);
-		return acc.deposit(amount);
+		return acc != null? acc.deposit(amount) : false;
 	}
 	
 	/**
@@ -60,14 +57,8 @@ public class Bank {
 	 * @return true if the amount has been withdrawn, false if an error occurred
 	 */
 	public boolean withdraw(int accountNr, String pin, double amount) {
-		if(!validateAccountNr(accountNr)) {
-			return false;
-		}
 		Account acc = this.findAccount(accountNr);
-		if(!acc.checkPin(pin)) {
-			return false;
-		}
-		return acc.withdraw(amount);
+		return acc != null && acc.checkPin(pin) && acc.withdraw(amount);
 	}
 	
 	/**
@@ -79,15 +70,8 @@ public class Bank {
 	 * @return true if the amount has been transfered, false if an error occurred
 	 */
 	public boolean transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) {
-		if(!this.validateAccountNr(debitAccountNr) || !this.validateAccountNr(creditAccountNr)) {
-			return false;
-		}
-		Account debitAcc = this.findAccount(debitAccountNr);
-		Account creditAcc = this.findAccount(creditAccountNr);
-		if (!debitAcc.checkPin(pin)) {
-			return false;
-		}
-		return debitAcc.withdraw(amount) && creditAcc.deposit(amount);
+		// TODO: first check if both acc are valid, then do the return
+		return this.withdraw(debitAccountNr, pin, amount) && this.deposit(creditAccountNr, amount);
 	}
 	
 	/**
@@ -96,7 +80,7 @@ public class Bank {
 	 * @return the found account, or null if the account does not exist
 	 */
 	private Account findAccount(int accountNr) {
-		if(accountNr > this.numAccounts) {
+		if(!validateAccountNr(accountNr)) {
 			return null;
 		}
 		return this.accounts[accountNr];
@@ -132,10 +116,7 @@ public class Bank {
 			return null;
 		}
 		Customer customer = this.customers[customerNr];
-		if(customer.checkPassword(password)) {
-			return customer;
-		}
-		return null;
+		return customer.checkPassword(password)? customer : null;
 	}
 	
 	/**
@@ -146,10 +127,7 @@ public class Bank {
 	 */
 	public Double getBalance(int accountNr, String pin) {
 		Account acc = this.findAccount(accountNr);
-		if(acc.checkPin(pin)) {
-			return acc.getBalance();
-		}
-		return null;
+		return acc != null && acc.checkPin(pin)? acc.getBalance() : null;
 	}
 	
 	/**
@@ -159,6 +137,7 @@ public class Bank {
 	 * @return the opened account
 	 */
 	public Account openAccount(Customer customer, String pin) {
+		// TODO: this.numAccounts + offset as account number (e.g. offset = 1)
 		Account account = new Account(this.numAccounts, pin);
 		this.accounts[this.numAccounts++] = account;
 		customer.addAccount(account);
@@ -172,7 +151,8 @@ public class Bank {
 	 * @return the registered customer
 	 */
 	public Customer registerCustomer(String name, String password) {
-		Customer customer = new Customer(this.numCustomers, name, password);
+		// TODO: this.numCustomers + offset as customer number (e.g. offset = 100)
+		Customer customer = new Customer(this.numCustomers, name, password); 
 		this.customers[this.numCustomers++] = customer;
 		return customer;
 	}

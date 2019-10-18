@@ -1,4 +1,4 @@
-package classes;
+package bfh.bank;
 
 /**
  * Class Customer

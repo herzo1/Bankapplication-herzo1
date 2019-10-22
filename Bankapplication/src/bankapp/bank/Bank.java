@@ -1,4 +1,4 @@
-package bfh.bank;
+package bankapp.bank;
 
 /**
  * Class Bank
@@ -6,6 +6,8 @@ package bfh.bank;
  *
  */
 public class Bank {
+	private static final int ACCOUNT_OFFSET = 100;
+	private static final int CUSTOMER_OFFSET = 10;
 	
 	public static final int MAX_ACCOUNTS = 1000;
 	public static final int MAX_CUSTOMERS = 100;
@@ -28,7 +30,6 @@ public class Bank {
 		this.numAccounts = 0;
 		this.numCustomers = 0;
 	}
-	
 	/**
 	 * Gets the name of the bank.
 	 * @return the bank name
@@ -36,8 +37,6 @@ public class Bank {
 	public String getName() {
 		return this.name;
 	}
-	
-	
 	/**
 	 * Deposits money into an account.
 	 * @param accountNr - the account number
@@ -70,7 +69,9 @@ public class Bank {
 	 * @return true if the amount has been transfered, false if an error occurred
 	 */
 	public boolean transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) {
-		// TODO: first check if both acc are valid, then do the return
+		if (this.findAccount(debitAccountNr)==null || this.findAccount(creditAccountNr) == null) {
+			return false;
+		}
 		return this.withdraw(debitAccountNr, pin, amount) && this.deposit(creditAccountNr, amount);
 	}
 	
@@ -80,31 +81,12 @@ public class Bank {
 	 * @return the found account, or null if the account does not exist
 	 */
 	private Account findAccount(int accountNr) {
-		if(!validateAccountNr(accountNr)) {
+		accountNr -= ACCOUNT_OFFSET;
+		if(accountNr < 0 || accountNr > this.numCustomers) {
 			return null;
 		}
 		return this.accounts[accountNr];
 	}
-	
-	/**
-	 * Validate if the given accountNr is an actual account.
-	 * @param accountNr - the account number
-	 * @return true if valid accountNr, false otherwise
-	 */
-	private boolean validateAccountNr(int accountNr) {
-		return accountNr <= this.numAccounts && accountNr >= 0;
-	}
-	
-	/**
-	 * Validate if the given customerNr is an actual customer.
-	 * @param customerNr - the customer number
-	 * @return true if valid customerNr, false otherwise
-	 */
-	private boolean validateCustomerNr(int customerNr) {
-		return customerNr <= this.numCustomers && customerNr >= 0;
-
-	}
-	
 	/**
 	 * Authenticates a bank customer. 
 	 * @param customerNr - the customer number
@@ -112,7 +94,8 @@ public class Bank {
 	 * @return the authenticated customer if the authentication was successful, false otherwise
 	 */
 	public Customer authCustomer(int customerNr, String password) {
-		if(!this.validateCustomerNr(customerNr)) {
+		customerNr -= CUSTOMER_OFFSET;
+		if(customerNr < 0 || customerNr >= this.numCustomers) {
 			return null;
 		}
 		Customer customer = this.customers[customerNr];
@@ -137,8 +120,7 @@ public class Bank {
 	 * @return the opened account
 	 */
 	public Account openAccount(Customer customer, String pin) {
-		// TODO: this.numAccounts + offset as account number (e.g. offset = 1)
-		Account account = new Account(this.numAccounts, pin);
+		Account account = new Account(this.numAccounts + ACCOUNT_OFFSET, pin);
 		this.accounts[this.numAccounts++] = account;
 		customer.addAccount(account);
 		return account;
@@ -151,8 +133,7 @@ public class Bank {
 	 * @return the registered customer
 	 */
 	public Customer registerCustomer(String name, String password) {
-		// TODO: this.numCustomers + offset as customer number (e.g. offset = 100)
-		Customer customer = new Customer(this.numCustomers, name, password); 
+		Customer customer = new Customer(this.numCustomers + CUSTOMER_OFFSET, name, password); 
 		this.customers[this.numCustomers++] = customer;
 		return customer;
 	}

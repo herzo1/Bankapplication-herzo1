@@ -1,4 +1,4 @@
-package bfh.bank;
+package bankapp.bank;
 
 /**
  * Class Account

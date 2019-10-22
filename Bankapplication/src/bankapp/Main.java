@@ -1,11 +1,11 @@
 package bankapp;
 
-import bankapp.bank.Account;
 import bankapp.bank.Bank;
-import bankapp.bank.Customer;
+import bankapp.cli.BankCLI;
 
 public class Main {
 	public static void main(String[] args) {
+		/*
 		Bank baloise = new Bank("baloise");
 		
 		Customer bob = baloise.registerCustomer("bob", "alice86");
@@ -23,12 +23,13 @@ public class Main {
 		
 		System.out.println(bob);
 		
-		/*
 		Customer eve = baloise.registerCustomer("Eve", "password");
 		Account eveAcc = baloise.openAccount(eve, "0000");
 		eveAcc.deposit(1000000);
 		
 		System.out.println(eve);
 		*/
+		Bank ubs = new Bank("UBS");
+		BankCLI ubsCli = new BankCLI(ubs);
 	}
 }

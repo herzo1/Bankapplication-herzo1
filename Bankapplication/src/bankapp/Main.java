@@ -1,8 +1,8 @@
-package bfh;
+package bankapp;
 
-import bfh.bank.Account;
-import bfh.bank.Bank;
-import bfh.bank.Customer;
+import bankapp.bank.Account;
+import bankapp.bank.Bank;
+import bankapp.bank.Customer;
 
 public class Main {
 	public static void main(String[] args) {

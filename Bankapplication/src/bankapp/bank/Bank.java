@@ -95,7 +95,7 @@ public class Bank {
 	 */
 	public Customer authCustomer(int customerNr, String password) {
 		customerNr -= CUSTOMER_OFFSET;
-		if(customerNr < 0 || customerNr > this.numCustomers) {
+		if(customerNr < 0 || customerNr >= this.numCustomers) {
 			return null;
 		}
 		Customer customer = this.customers[customerNr];

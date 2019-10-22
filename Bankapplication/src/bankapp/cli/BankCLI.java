@@ -64,7 +64,24 @@ public class BankCLI {
 		int customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
 		String customerPassword = ConsoleHelper.readString("Password > ");
 		
-		customer = bank.authCustomer(customerNr, customerPassword);
+		Customer tempCustomer = bank.authCustomer(customerNr, customerPassword);
+		
+		while(tempCustomer == null) {
+			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
+			switch (choice) {
+				case 1:
+					customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
+					customerPassword = ConsoleHelper.readString("Password > ");
+					tempCustomer = bank.authCustomer(customerNr, customerPassword);
+					break;
+				case 2:
+				// case 2 falls through
+				default:
+					return;
+			}
+		}
+		
+		customer = tempCustomer;
 	}
 
 	/**
@@ -108,7 +125,19 @@ public class BankCLI {
 	private void deposit() {
 		int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 		double amount = ConsoleHelper.readDecimal("Amount > ");
-		bank.deposit(accountNr, amount);
+		while(!bank.deposit(accountNr, amount)) {
+			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
+			switch (choice) {
+				case 1:
+					accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+					amount = ConsoleHelper.readDecimal("Amount > ");
+					break;
+				case 2:
+				// case 2 falls through
+				default:
+					return;
+			}			
+		}
 	}
 
 	/**
@@ -118,7 +147,20 @@ public class BankCLI {
 		int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 		String pin = ConsoleHelper.readString("Pin > ");
 		double amount = ConsoleHelper.readDecimal("Amount > ");
-		bank.withdraw(accountNr, pin, amount);
+		while(!bank.withdraw(accountNr, pin, amount)) {
+			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
+			switch (choice) {
+				case 1:
+					accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+					pin = ConsoleHelper.readString("Pin > ");
+					amount = ConsoleHelper.readDecimal("Amount > ");
+					break;
+				case 2:
+				// case 2 falls through
+				default:
+					return;
+			}					
+		}
 	}
 
 	/**
@@ -129,6 +171,20 @@ public class BankCLI {
 		String pin = ConsoleHelper.readString("Pin > ");
 		int creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
 		double amount = ConsoleHelper.readDecimal("Amount > ");
-		bank.transfer(debitAccountNr, pin, creditAccountNr, amount);
+		while(!bank.transfer(debitAccountNr, pin, creditAccountNr, amount)) {
+			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
+			switch (choice) {
+				case 1:
+					debitAccountNr = ConsoleHelper.readInteger("Debit account Nr.: > ");
+					pin = ConsoleHelper.readString("Pin > ");
+					creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
+					amount = ConsoleHelper.readDecimal("Amount > ");
+					break;
+				case 2:
+				// case 2 falls through
+				default:
+					return;
+			}				
+		}
 	}
 }

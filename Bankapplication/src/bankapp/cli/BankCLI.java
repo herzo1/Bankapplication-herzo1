@@ -24,7 +24,6 @@ public class BankCLI {
 	 */
 	public BankCLI(Bank bank) {
 		this.bank = bank;
-		this.run();
 	}
 	/**
 	 * Runs the command-line interface.

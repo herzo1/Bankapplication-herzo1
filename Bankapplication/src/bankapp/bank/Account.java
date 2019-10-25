@@ -74,7 +74,7 @@ public class Account {
 	 * @param amount - the amount of money to withdraw
 	 * @return true if the withdrawal was successful, false otherwise
 	 */
-	public boolean withdraw(double amount) {
+	protected boolean withdraw(double amount) {
 		if(amount < 0) {
 			return false;
 		}

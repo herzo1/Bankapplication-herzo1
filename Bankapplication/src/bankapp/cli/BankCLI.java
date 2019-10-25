@@ -49,11 +49,10 @@ public class BankCLI {
 	 * Registers a bank customer.
 	 */
 	private void registerCustomer() {
-		//TODO Implement method
 		String customerName = ConsoleHelper.readString("Name > ");
 		String customerPassword = ConsoleHelper.readString("Password > ");
-		
 		customer = bank.registerCustomer(customerName, customerPassword);
+		ConsoleHelper.writeMessage("Customer registered!");
 	}
 
 	/**
@@ -62,9 +61,9 @@ public class BankCLI {
 	private void logonCustomer() {
 		int customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
 		String customerPassword = ConsoleHelper.readString("Password > ");
-		
 		Customer tempCustomer = bank.authCustomer(customerNr, customerPassword);
-		
+		ConsoleHelper.writeMessage(tempCustomer != null? "Customer logged in" : "Login failed");
+		/*
 		while(tempCustomer == null) {
 			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
 			switch (choice) {
@@ -78,8 +77,9 @@ public class BankCLI {
 				default:
 					return;
 			}
+			
 		}
-		
+		*/
 		customer = tempCustomer;
 	}
 
@@ -116,6 +116,7 @@ public class BankCLI {
 	private void openAccount() {
 		String accPin = ConsoleHelper.readString("Pin > ");
 		bank.openAccount(customer, accPin);
+		
 	}
 
 	/**
@@ -124,6 +125,9 @@ public class BankCLI {
 	private void deposit() {
 		int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 		double amount = ConsoleHelper.readDecimal("Amount > ");
+		boolean success = bank.deposit(accountNr, amount);
+		ConsoleHelper.writeMessage(success == true? "Amount deposited" : "Error occurred");
+		/*
 		while(!bank.deposit(accountNr, amount)) {
 			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
 			switch (choice) {
@@ -137,6 +141,7 @@ public class BankCLI {
 					return;
 			}			
 		}
+		*/
 	}
 
 	/**
@@ -170,6 +175,7 @@ public class BankCLI {
 		String pin = ConsoleHelper.readString("Pin > ");
 		int creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
 		double amount = ConsoleHelper.readDecimal("Amount > ");
+		
 		while(!bank.transfer(debitAccountNr, pin, creditAccountNr, amount)) {
 			int choice = ConsoleHelper.displayMenu("Invalid input", "Try again", "Exit");
 			switch (choice) {

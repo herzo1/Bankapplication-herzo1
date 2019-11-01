@@ -116,12 +116,15 @@ public class BankCLI {
 	private void openPersonalAccount() {
 		String accPin = ConsoleHelper.readString("Pin > ");
 		bank.openPersonalAccount(customer, accPin);
+		ConsoleHelper.writeMessage("Successfully opened personal account!");
 	}
 	
 	private void openSavingsAccount() {
 		double limit = ConsoleHelper.readDecimal("Withdraw Limit > ");
 		String accPin = ConsoleHelper.readString("Pin > ");
 		bank.openSavingsAccount(customer, accPin, limit);
+		ConsoleHelper.writeMessage("Successfully opened savings account!");
+
 	}
 
 	/**

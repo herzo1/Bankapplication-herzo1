@@ -2,6 +2,8 @@ package bankapp.bank;
 
 public class SavingsAccount extends Account {
 	private static final double DEFAULT_LIMIT = 2000;
+	private static final double MIN_LIMIT = 100;
+
 	private double limit;
 	
 	public SavingsAccount(int nr, String pin) {
@@ -10,7 +12,11 @@ public class SavingsAccount extends Account {
 
 	public SavingsAccount(int nr, String pin, double limit) {
 		super(nr, pin);
-		this.limit = limit;
+		if(limit < MIN_LIMIT) {
+			this.limit = DEFAULT_LIMIT;
+		} else {
+			this.limit = limit;
+		}
 	}
 	
 	/**
@@ -25,6 +31,39 @@ public class SavingsAccount extends Account {
 		}
 		super.balance = tempBalance;
 		return true;
+	}
+	
+	/**
+	 * Gets the actual limit of the savings account
+	 * @return limit
+	 */
+	public double getLimit() {
+		return this.limit;
+	}
+	
+	/**
+	 * Set the limit of the savings account
+	 * @param limit - amount to set as limit
+	 * @return true if limit was successfully set, false otherwise
+	 */
+	public boolean setLimit(double limit) {
+		if(limit < MIN_LIMIT) {
+			return false;
+		}
+		this.limit = limit;
+		return true;
+		
+	}
+	
+	/**
+	 * Generates a string representation of the account.
+	 * @return a string representing the account
+	 */
+	public String toString() {
+		String s = "Savings Account: " +
+				"nr=" + this.nr + ", " +
+				"balance=" + String.format("%.2f\n", this.balance);
+		return s;
 	}
 
 }

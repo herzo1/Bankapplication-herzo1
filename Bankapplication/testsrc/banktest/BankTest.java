@@ -23,6 +23,23 @@ class BankTest {
 	Customer testCustomer = testBank.registerCustomer(CUSTOMER_NAME, PASSWORD);
 	Account testAccount = testBank.openAccount(testCustomer, PIN);
 
+	
+	/*
+	 * TODO:
+	 * - use assertTrue() / assertFalse() / assertNotNull()
+	 * - setup in void beforeEach
+	 * - Test with wrong account nr. (like -1)
+	 * - balance of new account (should == 0)
+	 * - Constant DELTA = 0.001 for equals(double, double)
+	 * - withdraw / deposit with wrong account numbers
+	 */
+	
+	/*
+	 * TODO:
+	 * Test with TestClass from moodle
+	 */
+	
+	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}

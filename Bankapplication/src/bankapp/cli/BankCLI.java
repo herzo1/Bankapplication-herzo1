@@ -96,9 +96,32 @@ public class BankCLI {
 	 * Opens a bank account.
 	 */
 	private void openAccount() {
-		String accPin = ConsoleHelper.readString("Pin > ");
-		bank.openAccount(customer, accPin);
+		while (true) {
+			int choice = ConsoleHelper.displayMenu("Choose Account type", "Personal Account", "Savings Account", "Exit");
+			switch (choice) {
+				case 1:
+					openPersonalAccount();
+					break;
+				case 2:
+					openSavingsAccount();
+					break;
+				default:
+					return;
+			}
+			if (customer != null) runSession();
+		}
 		
+	}
+	
+	private void openPersonalAccount() {
+		String accPin = ConsoleHelper.readString("Pin > ");
+		bank.openPersonalAccount(customer, accPin);
+	}
+	
+	private void openSavingsAccount() {
+		double limit = ConsoleHelper.readDecimal("Withdraw Limit > ");
+		String accPin = ConsoleHelper.readString("Pin > ");
+		bank.openSavingsAccount(customer, accPin, limit);
 	}
 
 	/**

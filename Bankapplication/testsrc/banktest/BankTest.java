@@ -21,7 +21,7 @@ class BankTest {
 	
 	Bank testBank = new Bank(BANKNAME);
 	Customer testCustomer = testBank.registerCustomer(CUSTOMER_NAME, PASSWORD);
-	Account testAccount = testBank.openAccount(testCustomer, PIN);
+	Account testAccount = testBank.openPersonalAccount(testCustomer, PIN);
 
 	
 	/*
@@ -100,7 +100,7 @@ class BankTest {
 
 	@Test
 	void testTransfer() {
-		Account transferTestAccount = testBank.openAccount(testCustomer, PIN);
+		Account transferTestAccount = testBank.openPersonalAccount(testCustomer, PIN);
 		double amount = 1000;
 		testBank.deposit(testAccount.getNr(), amount);
 		testBank.deposit(transferTestAccount.getNr(), amount);
@@ -111,7 +111,7 @@ class BankTest {
 	
 	@Test
 	void testNegativeTransfer() {
-		Account transferTestAccount = testBank.openAccount(testCustomer, PIN);
+		Account transferTestAccount = testBank.openPersonalAccount(testCustomer, PIN);
 		double amount = -1000;
 		testBank.deposit(testAccount.getNr(), amount);
 		testBank.deposit(transferTestAccount.getNr(), amount);
@@ -130,7 +130,7 @@ class BankTest {
 
 	@Test
 	void testGetBalance() {
-		Account getBalanceAccount = testBank.openAccount(testCustomer, PIN);
+		Account getBalanceAccount = testBank.openPersonalAccount(testCustomer, PIN);
 		double amount = 1000;
 		testBank.deposit(getBalanceAccount.getNr(), amount);
 		assertEquals(amount, testBank.getBalance(getBalanceAccount.getNr(), PIN));

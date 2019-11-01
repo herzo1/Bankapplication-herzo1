@@ -6,9 +6,9 @@ package bankapp.bank;
  *
  */
 public class Account {
-	private double balance;
-	private final int nr;
-	private String pin;
+	protected double balance;
+	protected final int nr;
+	protected String pin;
 	
 	/**
 	 * Constructs a bank account.

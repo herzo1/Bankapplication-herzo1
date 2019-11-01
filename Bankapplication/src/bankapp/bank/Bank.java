@@ -114,13 +114,26 @@ public class Bank {
 	}
 	
 	/**
-	 * Opens a bank account.
+	 * Opens a saving bank account.
 	 * @param customer - the customer of the account
 	 * @param pin - the PIN of the account
 	 * @return the opened account
 	 */
-	public Account openAccount(Customer customer, String pin) {
-		Account account = new Account(this.numAccounts + ACCOUNT_OFFSET, pin);
+	public Account openSavingsAccount(Customer customer, String pin, double limit) {
+		Account account = new SavingsAccount(this.numAccounts + ACCOUNT_OFFSET, pin, limit);
+		this.accounts[this.numAccounts++] = account;
+		customer.addAccount(account);
+		return account;
+	}
+	
+	/**
+	 * Opens a personal bank account.
+	 * @param customer - the customer of the account
+	 * @param pin - the PIN of the account
+	 * @return the opened account
+	 */
+	public Account openPersonalAccount(Customer customer, String pin) {
+		Account account = new PersonalAccount(this.numAccounts + ACCOUNT_OFFSET, pin);
 		this.accounts[this.numAccounts++] = account;
 		customer.addAccount(account);
 		return account;

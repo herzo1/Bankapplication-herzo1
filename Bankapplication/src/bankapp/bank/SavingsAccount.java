@@ -25,12 +25,10 @@ public class SavingsAccount extends Account {
 	 * @return true if the withdrawal was successful, false otherwise
 	 */
 	protected boolean withdraw(double amount) {
-		double tempBalance = super.balance - amount;
-		if(amount < 0 || tempBalance < 0 || amount > limit) {
+		if(amount > super.balance || amount > limit) { /* amount <= 0 get checked in the basis method */
 			return false;
 		}
-		super.balance = tempBalance;
-		return true;
+		return super.withdraw(amount);
 	}
 	
 	/**
@@ -60,10 +58,7 @@ public class SavingsAccount extends Account {
 	 * @return a string representing the account
 	 */
 	public String toString() {
-		String s = "Savings Account: " +
-				"nr=" + this.nr + ", " +
-				"balance=" + String.format("%.2f\n", this.balance);
-		return s;
+		return "Savings " + super.toString();
 	}
 
 }

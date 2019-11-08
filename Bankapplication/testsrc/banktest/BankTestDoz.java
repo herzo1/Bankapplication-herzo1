@@ -21,10 +21,11 @@ class BankTestDoz {
 	private static final String PIN = "1234";
 	private static final double AMOUNT = 1000.0;
 	private static final double DELTA = 0.001;
+	private static final double LIMIT = 1000;
 
 	private Bank bank;
 	private Customer customer;
-	private Account account1, account2;
+	private Account account1, account2, account3;
 
 	@BeforeEach
 	void init() {
@@ -32,8 +33,11 @@ class BankTestDoz {
 		customer = bank.registerCustomer(CUSTOMER_NAME, PASSWORD);
 		account1 = bank.openPersonalAccount(customer, PIN);
 		account2 = bank.openPersonalAccount(customer, PIN);
+		account3 = bank.openSavingsAccount(customer, PIN, LIMIT);
 	}
-
+	
+	/* TODO: test-method for savingsAccount (account3) */
+	
 	@Test
 	void testRegistration() {
 		assertTrue(customer.getNr() > 0);

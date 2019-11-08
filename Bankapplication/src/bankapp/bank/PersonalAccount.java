@@ -15,10 +15,7 @@ public class PersonalAccount extends Account {
 	 * @return a string representing the account
 	 */
 	public String toString() {
-		String s = "Personal Account: " +
-				"nr=" + this.nr + ", " +
-				"balance=" + String.format("%.2f\n", this.balance);
-		return s;
+		return "Personal " + super.toString();
 	}
 
 }

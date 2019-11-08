@@ -120,10 +120,7 @@ public class Bank {
 	 * @return the opened account
 	 */
 	public Account openSavingsAccount(Customer customer, String pin, double limit) {
-		Account account = new SavingsAccount(this.numAccounts + ACCOUNT_OFFSET, pin, limit);
-		this.accounts[this.numAccounts++] = account;
-		customer.addAccount(account);
-		return account;
+		return addAccount(customer, new SavingsAccount(this.numAccounts + ACCOUNT_OFFSET, pin, limit));
 	}
 	
 	/**
@@ -133,7 +130,10 @@ public class Bank {
 	 * @return the opened account
 	 */
 	public Account openPersonalAccount(Customer customer, String pin) {
-		Account account = new PersonalAccount(this.numAccounts + ACCOUNT_OFFSET, pin);
+		return addAccount(customer, new PersonalAccount(this.numAccounts + ACCOUNT_OFFSET, pin));
+	}
+	
+	private Account addAccount(Customer customer, Account account) {
 		this.accounts[this.numAccounts++] = account;
 		customer.addAccount(account);
 		return account;

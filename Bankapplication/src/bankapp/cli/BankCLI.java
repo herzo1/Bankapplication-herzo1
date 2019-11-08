@@ -17,6 +17,8 @@ public class BankCLI {
 	 * The logged in customer.
 	 */
 	private Customer customer;
+
+	private Command[] commands;
 	
 	/**
 	 * Cunstructs a command-line interface.
@@ -24,6 +26,13 @@ public class BankCLI {
 	 */
 	public BankCLI(Bank bank) {
 		this.bank = bank;
+		commands = new Command[] {
+				new CustomerRegistration(), 
+				new CustomerLogin(),
+				new OpenAccount(),
+				new Deposit(),
+				new Withdraw(),
+				new Transfer()};
 	}
 	/**
 	 * Runs the command-line interface.
@@ -31,38 +40,12 @@ public class BankCLI {
 	public void run() {
 		while (true) {
 			int choice = ConsoleHelper.displayMenu(bank.getName(), "Register", "Login", "Exit");
-			switch (choice) {
-				case 1:
-					registerCustomer();
-					break;
-				case 2:
-					logonCustomer();
-					break;
-				default:
-					return;
+			if(choice == 3) {
+				return;
 			}
+			commands[choice-1].execute();
 			if (customer != null) runSession();
 		}
-	}
-
-	/**
-	 * Registers a bank customer.
-	 */
-	private void registerCustomer() {
-		String customerName = ConsoleHelper.readString("Name > ");
-		String customerPassword = ConsoleHelper.readString("Password > ");
-		customer = bank.registerCustomer(customerName, customerPassword);
-		ConsoleHelper.writeMessage("Customer registered!");
-	}
-
-	/**
-	 * Logs on a bank customer.
-	 */
-	private void logonCustomer() {
-		int customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
-		String customerPassword = ConsoleHelper.readString("Password > ");
-		customer = bank.authCustomer(customerNr, customerPassword);
-		ConsoleHelper.writeMessage(customer != null? "Customer logged in" : "Login failed");
 	}
 
 	/**
@@ -73,90 +56,115 @@ public class BankCLI {
 			ConsoleHelper.writeData(customer);
 			int choice = ConsoleHelper.displayMenu(bank.getName(),
 					"Open Account", "Deposit", "Withdraw", "Transfer", "Logout");
-			switch (choice) {
-				case 1:
-					openAccount();
-					break;
-				case 2:
-					deposit();
-					break;
-				case 3:
-					withdraw();
-					break;
-				case 4:
-					transfer();
-					break;
-				default:
-					return;
+			if(choice == 5) {
+				return;
 			}
+			commands[choice+1].execute();
 		}
 	}
 
-	/**
-	 * Opens a bank account.
-	 */
-	private void openAccount() {
-		while (true) {
-			int choice = ConsoleHelper.displayMenu("Choose Account type", "Personal Account", "Savings Account", "Exit");
-			switch (choice) {
-				case 1:
-					openPersonalAccount();
-					break;
-				case 2:
-					openSavingsAccount();
-					break;
-				default:
-					return;
-			}
-			if (customer != null) runSession();
+	private class CustomerRegistration extends Command{
+
+		@Override
+		public void execute() {
+			String customerName = ConsoleHelper.readString("Name > ");
+			String customerPassword = ConsoleHelper.readString("Password > ");
+			customer = bank.registerCustomer(customerName, customerPassword);
+			ConsoleHelper.writeMessage("Customer registered!");
 		}
 		
 	}
 	
-	private void openPersonalAccount() {
-		String accPin = ConsoleHelper.readString("Pin > ");
-		bank.openPersonalAccount(customer, accPin);
-		ConsoleHelper.writeMessage("Successfully opened personal account!");
+	private class CustomerLogin extends Command{
+
+		@Override
+		public void execute() {
+			int customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
+			String customerPassword = ConsoleHelper.readString("Password > ");
+			customer = bank.authCustomer(customerNr, customerPassword);
+			ConsoleHelper.writeMessage(customer != null? "Customer logged in" : "Login failed");
+		}
+		
 	}
 	
-	private void openSavingsAccount() {
-		double limit = ConsoleHelper.readDecimal("Withdraw Limit > ");
-		String accPin = ConsoleHelper.readString("Pin > ");
-		bank.openSavingsAccount(customer, accPin, limit);
-		ConsoleHelper.writeMessage("Successfully opened savings account!");
+	private class OpenAccount extends Command{
+		Command[] openAccCommands;
+		
+		public OpenAccount() {
+			openAccCommands = new Command[] {
+					new openPersonalAccount(),
+					new openSavingsAccount()
+			};
+		}
+		
+		@Override
+		public void execute() {
+			while (true) {
+				int choice = ConsoleHelper.displayMenu("Choose Account type", "Personal Account", "Savings Account", "Exit");
+				if(choice == 3) {
+					return;
+				}
+				openAccCommands[choice-1].execute();
+			}
+		}
+	}
+	
+	private class openPersonalAccount extends Command{
 
+		@Override
+		public void execute() {
+			String accPin = ConsoleHelper.readString("Pin > ");
+			bank.openPersonalAccount(customer, accPin);
+			ConsoleHelper.writeMessage("Successfully opened personal account!");
+		}
 	}
 
-	/**
-	 * Deposits money to a bank account.
-	 */
-	private void deposit() {
-		int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
-		double amount = ConsoleHelper.readDecimal("Amount > ");
-		boolean success = bank.deposit(accountNr, amount);
-		ConsoleHelper.writeMessage(success == true? "Amount deposited" : "Error occurred");
+	private class openSavingsAccount extends Command{
+
+		@Override
+		public void execute() {
+			double limit = ConsoleHelper.readDecimal("Withdraw Limit > ");
+			String accPin = ConsoleHelper.readString("Pin > ");
+			bank.openSavingsAccount(customer, accPin, limit);
+			ConsoleHelper.writeMessage("Successfully opened savings account!");
+		}
 	}
 
-	/**
-	 * Withdraws money from a bank account.
-	 */
-	private void withdraw() {
-		int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
-		String pin = ConsoleHelper.readString("Pin > ");
-		double amount = ConsoleHelper.readDecimal("Amount > ");
-		boolean success = bank.withdraw(accountNr, pin, amount);
-		ConsoleHelper.writeMessage(success == true? "Amount withdrawed" : "Error occurred");
+	private class Deposit extends Command{
+
+		@Override
+		public void execute() {
+			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+			double amount = ConsoleHelper.readDecimal("Amount > ");
+			boolean success = bank.deposit(accountNr, amount);
+			ConsoleHelper.writeMessage(success == true? "Amount deposited" : "Error occurred");
+		}
+	}
+	
+	private class Withdraw extends Command{
+
+		@Override
+		public void execute() {
+			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+			String pin = ConsoleHelper.readString("Pin > ");
+			double amount = ConsoleHelper.readDecimal("Amount > ");
+			boolean success = bank.withdraw(accountNr, pin, amount);
+			ConsoleHelper.writeMessage(success == true? "Amount withdrawed" : "Error occurred");
+		}
+	}
+	
+	private class Transfer extends Command{
+
+		@Override
+		public void execute() {
+			int debitAccountNr = ConsoleHelper.readInteger("Debit account Nr.: > ");
+			String pin = ConsoleHelper.readString("Pin > ");
+			int creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
+			double amount = ConsoleHelper.readDecimal("Amount > ");
+			boolean success = bank.transfer(debitAccountNr, pin, creditAccountNr, amount);
+			ConsoleHelper.writeMessage(success == true? "Amount transfered" : "Error occurred");
+		}
+		
 	}
 
-	/**
-	 * Transfers money from a bank account to an other account.
-	 */
-	private void transfer() {
-		int debitAccountNr = ConsoleHelper.readInteger("Debit account Nr.: > ");
-		String pin = ConsoleHelper.readString("Pin > ");
-		int creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
-		double amount = ConsoleHelper.readDecimal("Amount > ");
-		boolean success = bank.transfer(debitAccountNr, pin, creditAccountNr, amount);
-		ConsoleHelper.writeMessage(success == true? "Amount transfered" : "Error occurred");
-	}
 }

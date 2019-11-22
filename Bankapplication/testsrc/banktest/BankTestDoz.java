@@ -135,8 +135,9 @@ class BankTestDoz {
 	
 	@Test
 	public void testWithdrawalOverWithdrawLimit() {
+		bank.deposit(account3.getNr(), AMOUNT);
 		assertFalse(bank.withdraw(account3.getNr(), PIN, AMOUNT));
-		assertEquals(AMOUNT, bank.getBalance(account3.getNr(), PIN));
+		assertEquals(AMOUNT, bank.getBalance(account3.getNr(), PIN), DELTA);
 	}
 
 	@Test

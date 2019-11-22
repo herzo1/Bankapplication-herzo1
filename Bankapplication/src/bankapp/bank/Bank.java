@@ -82,7 +82,7 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 */
 	private Account findAccount(int accountNr) {
 		accountNr -= ACCOUNT_OFFSET;
-		if(accountNr < 0 || accountNr > this.numCustomers) {
+		if(accountNr < 0 || accountNr > this.numAccounts) {
 			return null;
 		}
 		return this.accounts[accountNr];

@@ -1,9 +1,7 @@
 package bankapp;
 
 import bankapp.atm.ATM;
-import bankapp.bank.Account;
 import bankapp.bank.Bank;
-import bankapp.bank.Customer;
 import bankapp.cli.BankCLI;
 
 public class Main {

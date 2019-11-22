@@ -120,12 +120,12 @@ class BankTest {
 
 	@Test
 	void testAuthCustomer() {
-		assertEquals(testCustomer, testBank.authCustomer(testCustomer.getNr(), PASSWORD));
+		assertEquals(testCustomer, testBank.authenticateCustomer(testCustomer.getNr(), PASSWORD));
 	}
 	
 	@Test
 	void testFalseAuthCustomer() {
-		assertEquals(null, testBank.authCustomer(testCustomer.getNr(), PASSWORD + "false stuff"));
+		assertEquals(null, testBank.authenticateCustomer(testCustomer.getNr(), PASSWORD + "false stuff"));
 	}
 
 	@Test

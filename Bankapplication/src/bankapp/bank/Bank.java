@@ -5,7 +5,7 @@ package bankapp.bank;
  * @author Oliver.Herzig
  *
  */
-public class Bank {
+public class Bank implements ATMInterface, EBankingInterface {
 	private static final int ACCOUNT_OFFSET = 100;
 	private static final int CUSTOMER_OFFSET = 10;
 	
@@ -93,7 +93,7 @@ public class Bank {
 	 * @param password - the password of the customer
 	 * @return the authenticated customer if the authentication was successful, false otherwise
 	 */
-	public Customer authCustomer(int customerNr, String password) {
+	public Customer authenticateCustomer(int customerNr, String password) {
 		customerNr -= CUSTOMER_OFFSET;
 		if(customerNr < 0 || customerNr >= this.numCustomers) {
 			return null;
@@ -150,4 +150,5 @@ public class Bank {
 		this.customers[this.numCustomers++] = customer;
 		return customer;
 	}
+	
 }

@@ -81,7 +81,7 @@ public class BankCLI {
 		public void execute() {
 			int customerNr = ConsoleHelper.readInteger("Customer Nr.: > ");
 			String customerPassword = ConsoleHelper.readString("Password > ");
-			customer = bank.authCustomer(customerNr, customerPassword);
+			customer = bank.authenticateCustomer(customerNr, customerPassword);
 			ConsoleHelper.writeMessage(customer != null? "Customer logged in" : "Login failed");
 		}
 		

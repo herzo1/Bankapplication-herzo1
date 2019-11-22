@@ -21,7 +21,7 @@ class BankTestDoz {
 	private static final String PIN = "1234";
 	private static final double AMOUNT = 1000.0;
 	private static final double DELTA = 0.001;
-	private static final double LIMIT = 1000;
+	private static final double LIMIT = 500;
 
 	private Bank bank;
 	private Customer customer;
@@ -36,7 +36,7 @@ class BankTestDoz {
 		account3 = bank.openSavingsAccount(customer, PIN, LIMIT);
 	}
 	
-	/* TODO: test-method for savingsAccount (account3) */
+	
 	
 	@Test
 	void testRegistration() {
@@ -46,17 +46,17 @@ class BankTestDoz {
 
 	@Test
 	void testAuthentication() {
-		assertNotNull(bank.authCustomer(customer.getNr(), PASSWORD));
+		assertNotNull(bank.authenticateCustomer(customer.getNr(), PASSWORD));
 	}
 
 	@Test
 	void testAuthenticationWithInvalidNr() {
-		assertNull(bank.authCustomer(0, PASSWORD));
+		assertNull(bank.authenticateCustomer(0, PASSWORD));
 	}
 
 	@Test
 	void testAuthenticationWithInvalidPassword() {
-		assertNull(bank.authCustomer(customer.getNr(), ""));
+		assertNull(bank.authenticateCustomer(customer.getNr(), ""));
 	}
 
 	@Test
@@ -65,6 +65,13 @@ class BankTestDoz {
 		assertEquals(0, account1.getBalance(), DELTA);
 	}
 
+	@Test
+	public void testSavingsAccountOpening() {
+		assertTrue(account3.getNr() > 0);
+		assertEquals(0, account3.getBalance(), DELTA);
+	}
+	
+	
 	@Test
 	public void testBalanceCheck() {
 		assertEquals(0, bank.getBalance(account1.getNr(), PIN), DELTA);
@@ -85,7 +92,13 @@ class BankTestDoz {
 		assertTrue(bank.deposit(account1.getNr(), AMOUNT));
 		assertEquals(AMOUNT, bank.getBalance(account1.getNr(), PIN), DELTA);
 	}
-
+	
+	@Test
+	public void testDepositAtSavingsAcc() {
+		assertTrue(bank.deposit(account3.getNr(), AMOUNT));
+		assertEquals(AMOUNT, bank.getBalance(account3.getNr(), PIN), DELTA);
+	}
+	
 	@Test
 	public void testDepositWithInvalidNr() {
 		assertFalse(bank.deposit(0, AMOUNT));
@@ -118,6 +131,12 @@ class BankTestDoz {
 	public void testWithdrawalWithInvalidAmount() {
 		assertFalse(bank.withdraw(account1.getNr(), PIN, -AMOUNT));
 		assertEquals(0, bank.getBalance(account1.getNr(), PIN), DELTA);
+	}
+	
+	@Test
+	public void testWithdrawalOverWithdrawLimit() {
+		assertFalse(bank.withdraw(account3.getNr(), PIN, AMOUNT));
+		assertEquals(AMOUNT, bank.getBalance(account3.getNr(), PIN));
 	}
 
 	@Test

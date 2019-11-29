@@ -1,5 +1,8 @@
 package bankapp.bank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class Customer
  * @author Oliver.Herzig
@@ -7,12 +10,9 @@ package bankapp.bank;
  */
 public class Customer {
 	
-	static final int MAX_ACCOUNTS = 10;
-	
-	private final Account[] accounts;
+	private List<Account> accounts;
 	private final String name;
 	private final int nr;
-	private int numAccounts;
 	private String password;
 	
 	/**
@@ -25,8 +25,7 @@ public class Customer {
 		this.nr = nr;
 		this.name = name;
 		this.password = (password==null)?"" : password;
-		this.accounts = new Account[MAX_ACCOUNTS];
-		this.numAccounts = 0;
+		this.accounts = new ArrayList<>(); 
 	}
 	
 	/**
@@ -39,11 +38,7 @@ public class Customer {
 		 * the pointer to the accounts-array and you can override 
 		 * the variables inside the array form the outside.
 		 */
-		Account[] rtrnArray = new Account[this.numAccounts+1];
-		for(int i=0; i<=this.numAccounts; i++) {
-			rtrnArray[i] = this.accounts[i];
-		}
-		return rtrnArray;
+		return (Account[]) this.accounts.toArray();
 	}
 
 	/**
@@ -68,10 +63,10 @@ public class Customer {
 	 * @return true if the addition was successful, false otherwise
 	 */
 	public boolean addAccount(Account account) {
-		if(this.numAccounts >= MAX_ACCOUNTS || account == null) {
+		if(account == null) {
 			return false;
 		}
-		this.accounts[this.numAccounts++] = account;
+		this.accounts.add(account);
 		return true;
 	}
 	
@@ -90,8 +85,8 @@ public class Customer {
 	 */
 	public double getTotalBalance() {
 		double totalBalance = 0;
-		for(int i=0; i<this.numAccounts; i++) {
-			totalBalance += this.accounts[i].getBalance();
+		for(Account acc : accounts) {
+			totalBalance += acc.getBalance();
 		}
 		return totalBalance;
 	}

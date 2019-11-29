@@ -1,11 +1,15 @@
 package bankapp.bank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class Account
  * @author Oliver.Herzig
  *
  */
 public class Account {
+	private List<Transaction> transactions;
 	protected double balance;
 	protected final int nr;
 	protected String pin;
@@ -29,6 +33,7 @@ public class Account {
 		this.nr = nr;
 		this.pin = (pin == null)? "" : pin;
 		this.balance = balance;
+		this.transactions = new ArrayList<>();
 	}
 	
 	/**
@@ -50,6 +55,7 @@ public class Account {
 			return false;
 		}
 		this.balance += amount;
+		this.transactions.add(new Transaction(amount, balance));
 		return true;
 	}
 	
@@ -68,6 +74,13 @@ public class Account {
 	public int getNr() {
 		return this.nr;
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Transaction> getTransactions(){
+		return this.transactions;
+	}
 	
 	/**
 	 * Withdraws money from the account.
@@ -79,6 +92,7 @@ public class Account {
 			return false;
 		}
 		this.balance -= amount;
+		this.transactions.add(new Transaction(amount, balance));
 		return true;
 	}
 	

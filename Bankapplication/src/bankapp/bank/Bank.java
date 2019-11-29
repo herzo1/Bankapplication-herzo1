@@ -25,8 +25,8 @@ public class Bank implements ATMInterface, EBankingInterface {
 	public Bank(String name) {
 		this.name = name;
 		
-		accounts = new Account[MAX_ACCOUNTS];
-		customers = new Customer[MAX_CUSTOMERS];
+		this.accounts = new Account[MAX_ACCOUNTS];
+		this.customers = new Customer[MAX_CUSTOMERS];
 		this.numAccounts = 0;
 		this.numCustomers = 0;
 	}

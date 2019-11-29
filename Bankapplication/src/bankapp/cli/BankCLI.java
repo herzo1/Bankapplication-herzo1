@@ -31,9 +31,9 @@ public class BankCLI {
 		this.bank = bank;
 		this.commands = new Command[] {
 				new CustomerRegistration(), 
-				new TransactionRecord(),
 				new CustomerLogin(),
 				new OpenAccount(),
+				new TransactionRecord(),
 				new Deposit(),
 				new Withdraw(),
 				new Transfer()};
@@ -176,8 +176,15 @@ public class BankCLI {
 		public void execute() {
 			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 			List<Transaction> transactionRecord = bank.findAccount(accountNr).getTransactions();
-			for(Transaction record : transactionRecord) {
-				ConsoleHelper.writeData(record);
+			if(transactionRecord.size() == 0) {
+				ConsoleHelper.writeMessage("Error occurred");
+			} else {
+				ConsoleHelper.writeMessage("Transaction Record:");
+				ConsoleHelper.writeMessage("-------------------");
+				for(Transaction record : transactionRecord) {
+					ConsoleHelper.writeData(record);
+				}
+				ConsoleHelper.writeMessage("-------------------");
 			}
 		}
 	}

@@ -76,7 +76,7 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param accountNr - the account number
 	 * @return the found account, or null if the account does not exist
 	 */
-	private Account findAccount(int accountNr) {
+	public Account findAccount(int accountNr) {
 		accountNr -= ACCOUNT_OFFSET;
 		if(accountNr < 0 || accountNr >= this.accounts.size()) {
 			return null;

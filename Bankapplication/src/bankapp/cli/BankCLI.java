@@ -1,7 +1,10 @@
 package bankapp.cli;
 
+import java.util.List;
+
 import bankapp.bank.Bank;
 import bankapp.bank.Customer;
+import bankapp.bank.Transaction;
 
 /**
  * The class BankCLI implements the command-line interface of a bank.
@@ -26,8 +29,9 @@ public class BankCLI {
 	 */
 	public BankCLI(Bank bank) {
 		this.bank = bank;
-		commands = new Command[] {
+		this.commands = new Command[] {
 				new CustomerRegistration(), 
+				new TransactionRecord(),
 				new CustomerLogin(),
 				new OpenAccount(),
 				new Deposit(),
@@ -39,12 +43,12 @@ public class BankCLI {
 	 */
 	public void run() {
 		while (true) {
-			int choice = ConsoleHelper.displayMenu(bank.getName(), "Register", "Login", "Exit");
+			int choice = ConsoleHelper.displayMenu(this.bank.getName(), "Register", "Login", "Exit");
 			if(choice == 3) {
 				return;
 			}
-			commands[choice-1].execute();
-			if (customer != null) runSession();
+			this.commands[choice-1].execute();
+			if (this.customer != null) this.runSession();
 		}
 	}
 
@@ -55,7 +59,7 @@ public class BankCLI {
 		while (true) {
 			ConsoleHelper.writeData(customer);
 			int choice = ConsoleHelper.displayMenu(bank.getName(),
-					"Open Account", "Deposit", "Withdraw", "Transfer", "Logout");
+					"Open Account", "Transaction Record", "Deposit", "Withdraw", "Transfer", "Logout");
 			if(choice == 5) {
 				return;
 			}
@@ -165,6 +169,17 @@ public class BankCLI {
 			ConsoleHelper.writeMessage(success == true? "Amount transfered" : "Error occurred");
 		}
 		
+	}
+	
+	private class TransactionRecord extends Command{
+		@Override
+		public void execute() {
+			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+			List<Transaction> transactionRecord = bank.findAccount(accountNr).getTransactions();
+			for(Transaction record : transactionRecord) {
+				ConsoleHelper.writeData(record);
+			}
+		}
 	}
 
 }

@@ -32,15 +32,18 @@ public class Customer {
 	 * Gets the accounts of the customer.
 	 * @return the customer accounts
 	 */
-	public Account[] getAccounts() {
+	public List<Account> getAccounts() {
 		/*
 		 * Don't do 'return this.accounts'! In this case you will return
 		 * the pointer to the accounts-array and you can override 
 		 * the variables inside the array form the outside.
 		 */
-		return (Account[]) this.accounts.toArray();
+		return this.accounts;
 	}
 
+	public Account findAccount(int accountNr) {
+		return this.accounts.get(accountNr);
+	}
 	/**
 	 * Gets the name of the customer.
 	 * @return the customer name

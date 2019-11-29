@@ -23,14 +23,8 @@ public class Main {
 		for(int i=0; i<5; i++) {
 			accList.add(ubs.openPersonalAccount(cust1, PIN));
 		}
-
 		ubs.deposit(accList.get(1).getNr(), 1000);
-		System.out.println("---Init Data---");
 		System.out.println(cust1);
-		for(Account acc : accList) {
-			System.out.println(acc);
-		}
-		System.out.println("---------------");
 		ATM atm = new ATM(ubs);
 		BankCLI ubsCli = new BankCLI(ubs);
 		ubsCli.run();

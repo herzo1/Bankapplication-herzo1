@@ -1,5 +1,8 @@
 package bankapp.bank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class Bank
  * @author Oliver.Herzig
@@ -9,14 +12,9 @@ public class Bank implements ATMInterface, EBankingInterface {
 	private static final int ACCOUNT_OFFSET = 100;
 	private static final int CUSTOMER_OFFSET = 10;
 	
-	public static final int MAX_ACCOUNTS = 1000;
-	public static final int MAX_CUSTOMERS = 100;
-	
-	private Account[] accounts;
-	private Customer[] customers;
+	private List<Account> accounts;
+	private List<Customer> customers;
 	private String name;
-	private int numAccounts;
-	private int numCustomers;
 	
 	/**
 	 * Constructs a bank account.
@@ -25,10 +23,8 @@ public class Bank implements ATMInterface, EBankingInterface {
 	public Bank(String name) {
 		this.name = name;
 		
-		this.accounts = new Account[MAX_ACCOUNTS];
-		this.customers = new Customer[MAX_CUSTOMERS];
-		this.numAccounts = 0;
-		this.numCustomers = 0;
+		this.accounts = new ArrayList<>();
+		this.customers = new ArrayList<>(); 
 	}
 	/**
 	 * Gets the name of the bank.
@@ -82,10 +78,10 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 */
 	private Account findAccount(int accountNr) {
 		accountNr -= ACCOUNT_OFFSET;
-		if(accountNr < 0 || accountNr >= this.numAccounts) {
+		if(accountNr < 0 || accountNr >= this.accounts.size()) {
 			return null;
 		}
-		return this.accounts[accountNr];
+		return this.accounts.get(accountNr);
 	}
 	/**
 	 * Authenticates a bank customer. 
@@ -95,10 +91,10 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 */
 	public Customer authenticateCustomer(int customerNr, String password) {
 		customerNr -= CUSTOMER_OFFSET;
-		if(customerNr < 0 || customerNr >= this.numCustomers) {
+		if(customerNr < 0 || customerNr >= this.customers.size()) {
 			return null;
 		}
-		Customer customer = this.customers[customerNr];
+		Customer customer = this.customers.get(customerNr); 
 		return customer.checkPassword(password)? customer : null;
 	}
 	
@@ -120,7 +116,7 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @return the opened account
 	 */
 	public Account openSavingsAccount(Customer customer, String pin, double limit) {
-		return addAccount(customer, new SavingsAccount(this.numAccounts + ACCOUNT_OFFSET, pin, limit));
+		return this.addAccount(customer, new SavingsAccount(this.accounts.size() + ACCOUNT_OFFSET, pin, limit));
 	}
 	
 	/**
@@ -130,11 +126,11 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @return the opened account
 	 */
 	public Account openPersonalAccount(Customer customer, String pin) {
-		return addAccount(customer, new PersonalAccount(this.numAccounts + ACCOUNT_OFFSET, pin));
+		return addAccount(customer, new PersonalAccount(this.accounts.size() + ACCOUNT_OFFSET, pin));
 	}
 	
 	private Account addAccount(Customer customer, Account account) {
-		this.accounts[this.numAccounts++] = account;
+		this.accounts.add(account);
 		customer.addAccount(account);
 		return account;
 	}
@@ -146,8 +142,8 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @return the registered customer
 	 */
 	public Customer registerCustomer(String name, String password) {
-		Customer customer = new Customer(this.numCustomers + CUSTOMER_OFFSET, name, password); 
-		this.customers[this.numCustomers++] = customer;
+		Customer customer = new Customer(this.customers.size() + CUSTOMER_OFFSET, name, password); 
+		this.customers.add(customer);
 		return customer;
 	}
 	

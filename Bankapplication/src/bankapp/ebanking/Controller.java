@@ -2,6 +2,7 @@ package bankapp.ebanking;
 
 import bankapp.bank.Customer;
 import bankapp.bank.EBankingInterface;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -20,14 +21,16 @@ public class Controller {
     }
 
     public void showCustomerPane(){
-        // TODO: implement logic
+        showPane(new LoginPane(this, bank));
     }
 
     public void showLoginPane(){
-        // TODO: implement logic
+        showPane(new CustomerPane(this, bank, customer));
     }
 
     private void showPane(Pane pane){
-        // TODO: implement logic
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -1,9 +1,11 @@
 package bankapp.ebanking;
 
+import bankapp.bank.EBankingInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -11,6 +13,37 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class LoginPane extends BorderPane {
+    private Controller controller;
+    private EBankingInterface bank;
+
+    private Button loginButton, registerButton;
+    private TextField nameField, numberField;
+    private PasswordField pwField1, pwField2;
+    private Label statusLabel;
+
+    public LoginPane(Controller controller, EBankingInterface bank){
+        this.controller = controller;
+        this.bank = bank;
+    }
+
+    private VBox createLoginForm(){
+        // TODO: implement logic
+        return null;
+    }
+
+    private VBox createRegisterForm(){
+        // TODO: implement logic
+        return null;
+    }
+
+    private void login(){
+        // TODO: implement logic
+    }
+
+    private void register(){
+        // TODO: implement logic
+    }
+    /*
     private final static int SPACING = 10;
     private final static int MAIN_SPACING = 30;
     private final static int LABEL_WIDTH = 120;
@@ -37,7 +70,7 @@ public class LoginPane extends BorderPane {
     }
 
     private class LHCustomLogin extends VBox{
-        private LHCustomLogin(String label1, String label2, String buttonLabel){
+        public LHCustomLogin(String label1, String label2, String buttonLabel){
             super(SPACING);
             HBox firstLine = new LHLabelWithTF(label1);
             HBox secondLine = new LHLabelWithTF(label2);
@@ -51,7 +84,7 @@ public class LoginPane extends BorderPane {
     }
 
     private class LHLabelWithTF extends HBox{
-        private LHLabelWithTF(String label){
+        public LHLabelWithTF(String label){
             super(SPACING);
             TextField tf = new TextField();
             Label l = new Label(label);
@@ -63,7 +96,7 @@ public class LoginPane extends BorderPane {
     }
 
     private class LHButtonAlignment extends HBox{
-        private LHButtonAlignment(String buttonLabel){
+        public LHButtonAlignment(String buttonLabel){
             super(SPACING);
             Button button = new Button(buttonLabel);
             button.setPrefWidth(BUTTON_WIDTH);
@@ -73,4 +106,5 @@ public class LoginPane extends BorderPane {
             this.getChildren().setAll(placeHolder, button);
         }
     }
+     */
 }

@@ -1,6 +1,8 @@
 package bankapp.ebanking;
 
 import bankapp.bank.EBankingInterface;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,6 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class LoginPane extends BorderPane {
+    private final static int SPACING = 10;
+    private final static int LABEL_WIDTH = 80;
+
     private Controller controller;
     private EBankingInterface bank;
 
@@ -24,24 +29,67 @@ public class LoginPane extends BorderPane {
     public LoginPane(Controller controller, EBankingInterface bank){
         this.controller = controller;
         this.bank = bank;
+
     }
 
     private VBox createLoginForm(){
-        // TODO: implement logic
-        return null;
+        VBox vBoxLoginForm = new VBox(SPACING);
+        HBox hBoxCustNr = new HBox(SPACING);
+        Label labelCustNr = new Label("Customer Nr.");
+        labelCustNr.setPrefWidth(LABEL_WIDTH);
+        numberField = new TextField();
+        hBoxCustNr.getChildren().setAll(labelCustNr, numberField);
+
+        HBox hBoxPw = new HBox(SPACING);
+        Label labelPw = new Label("Password");
+        labelPw.setPrefWidth(LABEL_WIDTH);
+        pwField1 = new PasswordField();
+        hBoxPw.getChildren().setAll(labelPw, pwField1);
+
+        HBox hBoxLoginBtn = new HBox(SPACING);
+        Label labelPlaceholder = new Label("");
+        labelPlaceholder.setPrefWidth(LABEL_WIDTH);
+        loginButton = new Button("Login");
+        loginButton.addEventHandler(ActionEvent.ACTION, event -> this.login());
+
+        vBoxLoginForm.getChildren().setAll(hBoxCustNr, hBoxPw, hBoxLoginBtn);
+        vBoxLoginForm.setAlignment(Pos.CENTER);
+        return vBoxLoginForm;
     }
 
     private VBox createRegisterForm(){
-        // TODO: implement logic
-        return null;
+        VBox vBoxRegisterForm = new VBox(SPACING);
+        HBox hBoxCustName = new HBox(SPACING);
+        Label labelCustName = new Label("Customer Name");
+        labelCustName.setPrefWidth(LABEL_WIDTH);
+        nameField = new TextField();
+        hBoxCustName.getChildren().setAll(labelCustName, numberField);
+
+        HBox hBoxPw = new HBox(SPACING);
+        Label labelPw = new Label("Password");
+        labelPw.setPrefWidth(LABEL_WIDTH);
+        pwField2 = new PasswordField();
+        hBoxPw.getChildren().setAll(labelPw, pwField2);
+
+        HBox hBoxRegisterBtn = new HBox(SPACING);
+        Label labelPlaceholder = new Label("");
+        labelPlaceholder.setPrefWidth(LABEL_WIDTH);
+        registerButton = new Button("Login");
+        registerButton.addEventHandler(ActionEvent.ACTION, event -> this.register());
+
+        vBoxRegisterForm.getChildren().setAll(hBoxCustName, hBoxPw, hBoxRegisterBtn);
+        vBoxRegisterForm.setAlignment(Pos.CENTER);
+        return vBoxRegisterForm;
     }
 
     private void login(){
-        // TODO: implement logic
+        controller.setCustomer(bank.authenticateCustomer(Integer.parseInt(numberField.getText()), pwField1.getText()));
+        controller.showCustomerPane();
     }
 
     private void register(){
-        // TODO: implement logic
+        controller.setCustomer(bank.registerCustomer(nameField.getText(), pwField2.getText()));
+        controller.showCustomerPane();
     }
     /*
     private final static int SPACING = 10;
@@ -106,5 +154,6 @@ public class LoginPane extends BorderPane {
             this.getChildren().setAll(placeHolder, button);
         }
     }
+
      */
 }

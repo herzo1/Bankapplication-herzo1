@@ -23,6 +23,7 @@ public class Main extends Application {
 	private static List<Account> accList = new ArrayList<>();
 
 	private Bank easyBank;
+	private ATM atm;
 
 	@Override
 	public void init() throws Exception{
@@ -37,7 +38,7 @@ public class Main extends Application {
 		easyBank.deposit(accList.get(1).getNr(), 1000);
 		System.out.println(cust1);
 		 */
-		ATM atm = new ATM(easyBank);
+		atm = new ATM(easyBank);
 		// BankCLI bankCli = new BankCLI(easyBank);
 		// bankCli.run();
 	}
@@ -57,8 +58,7 @@ public class Main extends Application {
 
 	@Override
 	public void stop() throws Exception{
-		// TODO: why doesn't does atm.close() function
-	    // atm.close();
+	    atm.close();
 	}
 
 	public static void main(String[] args) {

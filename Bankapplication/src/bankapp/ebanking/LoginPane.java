@@ -2,21 +2,21 @@ package bankapp.ebanking;
 
 import bankapp.bank.EBankingInterface;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class LoginPane extends BorderPane {
     private final static int SPACING = 10;
-    private final static int LABEL_WIDTH = 80;
+    private final static int MAIN_SPACING = 10;
+    private final static int LABEL_WIDTH = 130;
 
     private Controller controller;
     private EBankingInterface bank;
@@ -29,6 +29,14 @@ public class LoginPane extends BorderPane {
     public LoginPane(Controller controller, EBankingInterface bank){
         this.controller = controller;
         this.bank = bank;
+
+        VBox vBox = new VBox(MAIN_SPACING);
+
+        Label bankName = new Label(bank.getName());
+        bankName.setFont(Font.font("Default", FontWeight.BOLD, 16));
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().setAll(bankName, createLoginForm(), createRegisterForm());
+        this.setCenter(vBox);
 
     }
 
@@ -51,6 +59,7 @@ public class LoginPane extends BorderPane {
         labelPlaceholder.setPrefWidth(LABEL_WIDTH);
         loginButton = new Button("Login");
         loginButton.addEventHandler(ActionEvent.ACTION, event -> this.login());
+        hBoxLoginBtn.getChildren().setAll(labelPlaceholder, loginButton);
 
         vBoxLoginForm.getChildren().setAll(hBoxCustNr, hBoxPw, hBoxLoginBtn);
         vBoxLoginForm.setAlignment(Pos.CENTER);
@@ -63,7 +72,7 @@ public class LoginPane extends BorderPane {
         Label labelCustName = new Label("Customer Name");
         labelCustName.setPrefWidth(LABEL_WIDTH);
         nameField = new TextField();
-        hBoxCustName.getChildren().setAll(labelCustName, numberField);
+        hBoxCustName.getChildren().setAll(labelCustName, nameField);
 
         HBox hBoxPw = new HBox(SPACING);
         Label labelPw = new Label("Password");
@@ -76,6 +85,7 @@ public class LoginPane extends BorderPane {
         labelPlaceholder.setPrefWidth(LABEL_WIDTH);
         registerButton = new Button("Login");
         registerButton.addEventHandler(ActionEvent.ACTION, event -> this.register());
+        hBoxRegisterBtn.getChildren().setAll(labelPlaceholder, registerButton);
 
         vBoxRegisterForm.getChildren().setAll(hBoxCustName, hBoxPw, hBoxRegisterBtn);
         vBoxRegisterForm.setAlignment(Pos.CENTER);

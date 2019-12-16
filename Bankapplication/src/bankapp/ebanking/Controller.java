@@ -20,11 +20,11 @@ public class Controller {
         this.customer = customer;
     }
 
-    public void showCustomerPane(){
+    public void showLoginPane(){
         showPane(new LoginPane(this, bank));
     }
 
-    public void showLoginPane(){
+    public void showCustomerPane(){
         showPane(new CustomerPane(this, bank, customer));
     }
 

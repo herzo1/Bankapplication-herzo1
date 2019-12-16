@@ -2,6 +2,7 @@ package bankapp.ebanking;
 
 import bankapp.bank.Customer;
 import bankapp.bank.EBankingInterface;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -25,6 +26,15 @@ public class CustomerPane extends BorderPane {
         this.controller = controller;
         this.bank = bank;
         this.customer = customer;
+
+        VBox vBox = new VBox(30);
+        // this.setCenter(vBox);
+
+        Label bankName = new Label(bank.getName());
+        bankName.setFont(Font.font("Default", FontWeight.BOLD, 16));
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().setAll(bankName);
+        this.setCenter(vBox);
     }
 
     private VBox createAccountOpeningForm(){

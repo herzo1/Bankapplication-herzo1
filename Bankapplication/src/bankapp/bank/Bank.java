@@ -39,9 +39,9 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param amount - the amount of money to deposit
 	 * @return true if the amount has been deposited, or false if an error occurred
 	 */
-	public boolean deposit(int accountNr, double amount) {
+	public void deposit(int accountNr, double amount) throws BankException {
 		Account acc = this.findAccount(accountNr);
-		return acc != null? acc.deposit(amount) : false;
+		acc.deposit(amount);
 	}
 	
 	/**
@@ -51,9 +51,10 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param amount - the amount of money to withdraw
 	 * @return true if the amount has been withdrawn, false if an error occurred
 	 */
-	public boolean withdraw(int accountNr, String pin, double amount) {
+	public void withdraw(int accountNr, String pin, double amount) throws BankException {
 		Account acc = this.findAccount(accountNr);
-		return acc != null && acc.checkPin(pin) && acc.withdraw(amount);
+		acc.checkPin(pin);
+		acc.withdraw(amount);
 	}
 	
 	/**
@@ -64,11 +65,9 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param amount - the amount of money to withdraw
 	 * @return true if the amount has been transfered, false if an error occurred
 	 */
-	public boolean transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) {
-		if (this.findAccount(debitAccountNr)==null || this.findAccount(creditAccountNr) == null) {
-			return false;
-		}
-		return this.withdraw(debitAccountNr, pin, amount) && this.deposit(creditAccountNr, amount);
+	public void transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) throws BankException {
+		withdraw(debitAccountNr, pin, amount);
+		deposit(creditAccountNr, amount);
 	}
 	
 	/**
@@ -76,10 +75,10 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param accountNr - the account number
 	 * @return the found account, or null if the account does not exist
 	 */
-	public Account findAccount(int accountNr) {
+	public Account findAccount(int accountNr) throws BankException {
 		accountNr -= ACCOUNT_OFFSET;
 		if(accountNr < 0 || accountNr >= this.accounts.size()) {
-			return null;
+		    throw new BankException("Account not found");
 		}
 		return this.accounts.get(accountNr);
 	}
@@ -89,13 +88,16 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param password - the password of the customer
 	 * @return the authenticated customer if the authentication was successful, false otherwise
 	 */
-	public Customer authenticateCustomer(int customerNr, String password) {
+	public Customer authenticateCustomer(int customerNr, String password) throws BankException {
 		customerNr -= CUSTOMER_OFFSET;
 		if(customerNr < 0 || customerNr >= this.customers.size()) {
 			return null;
 		}
-		Customer customer = this.customers.get(customerNr); 
-		return customer.checkPassword(password)? customer : null;
+		Customer customer = this.customers.get(customerNr);
+		if(customer == null){
+			throw new BankException("Invalid customer nr");
+		}
+		return customer;
 	}
 	
 	/**
@@ -104,9 +106,9 @@ public class Bank implements ATMInterface, EBankingInterface {
 	 * @param pin - the PIN of the account
 	 * @return the account balance, or null if an error occurred.
 	 */
-	public Double getBalance(int accountNr, String pin) {
-		Account acc = this.findAccount(accountNr);
-		return acc != null && acc.checkPin(pin)? acc.getBalance() : null;
+	public Double getBalance(int accountNr, String pin) throws BankException {
+		Account acc = findAccount(accountNr);
+		return acc.getBalance();
 	}
 	
 	/**

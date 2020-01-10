@@ -41,8 +41,10 @@ public class Account {
 	 * @param pin - the PIN to check
 	 * @return true if the PIN is valid, false otherwise
 	 */
-	public boolean checkPin(String pin) {
-		return this.pin.equals(pin);
+	public void checkPin(String pin) throws BankException{
+	    if(!this.pin.equals(pin)){
+	    	throw new BankException("Invalid PIN");
+		}
 	}
 	
 	/**
@@ -50,13 +52,12 @@ public class Account {
 	 * @param amount - the amount of money to deposit
 	 * @return true if the deposit was successful, false otherwise
 	 */
-	protected boolean deposit(double amount) {
+	protected void deposit(double amount) throws BankException {
 		if(amount < 0) {
-			return false;
+			throw new BankException("Invalid amount");
 		}
 		this.balance += amount;
 		this.transactions.add(new Transaction(amount, balance));
-		return true;
 	}
 	
 	/**
@@ -87,13 +88,12 @@ public class Account {
 	 * @param amount - the amount of money to withdraw
 	 * @return true if the withdrawal was successful, false otherwise
 	 */
-	protected boolean withdraw(double amount) {
+	protected void withdraw(double amount) throws BankException{
 		if(amount < 0) {
-			return false;
+			throw new BankException("Invalid amount");
 		}
 		this.balance -= amount;
 		this.transactions.add(new Transaction(amount, balance));
-		return true;
 	}
 	
 	/**

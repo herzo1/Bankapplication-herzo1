@@ -2,7 +2,7 @@ package bankapp.bank;
 
 public interface EBankingInterface {
 	
-	public Customer authenticateCustomer(int customerNr, String password);
+	public Customer authenticateCustomer(int customerNr, String password) throws BankException;
 	
 	public String getName();
 	
@@ -12,5 +12,5 @@ public interface EBankingInterface {
 	
 	public Customer registerCustomer(String name, String password);
 	
-	public boolean transfer(int debitAccountNr, String pin, int creditAccountNr, double amount);
+	public void transfer(int debitAccountNr, String pin, int creditAccountNr, double amount) throws BankException;
 }

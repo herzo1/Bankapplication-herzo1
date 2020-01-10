@@ -3,6 +3,7 @@ package bankapp.cli;
 import java.util.List;
 
 import bankapp.bank.Bank;
+import bankapp.bank.BankException;
 import bankapp.bank.Customer;
 import bankapp.bank.Transaction;
 
@@ -140,8 +141,14 @@ public class BankCLI {
 		public void execute() {
 			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 			double amount = ConsoleHelper.readDecimal("Amount > ");
-			boolean success = bank.deposit(accountNr, amount);
-			ConsoleHelper.writeMessage(success == true? "Amount deposited" : "Error occurred");
+			try {
+				bank.deposit(accountNr, amount);
+				ConsoleHelper.writeMessage("Amount deposited");
+			}
+			catch (BankException e){
+				ConsoleHelper.writeMessage("Error: " + e.getMessage());
+			}
+
 		}
 	}
 	
@@ -152,8 +159,13 @@ public class BankCLI {
 			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
 			String pin = ConsoleHelper.readString("Pin > ");
 			double amount = ConsoleHelper.readDecimal("Amount > ");
-			boolean success = bank.withdraw(accountNr, pin, amount);
-			ConsoleHelper.writeMessage(success == true? "Amount withdrawed" : "Error occurred");
+			try{
+				bank.withdraw(accountNr, pin, amount);
+				ConsoleHelper.writeMessage("Amount withdrawal");
+			}
+			catch (BankException e){
+				ConsoleHelper.writeMessage("Error: " + e.getMessage());
+			}
 		}
 	}
 	
@@ -165,8 +177,14 @@ public class BankCLI {
 			String pin = ConsoleHelper.readString("Pin > ");
 			int creditAccountNr = ConsoleHelper.readInteger("Credit account Nr.: > ");
 			double amount = ConsoleHelper.readDecimal("Amount > ");
-			boolean success = bank.transfer(debitAccountNr, pin, creditAccountNr, amount);
-			ConsoleHelper.writeMessage(success == true? "Amount transfered" : "Error occurred");
+			try {
+				bank.transfer(debitAccountNr, pin, creditAccountNr, amount);
+				ConsoleHelper.writeMessage("Amount transferred");
+			}
+			catch (BankException e){
+				ConsoleHelper.writeMessage("Error: " + e.getMessage());
+			}
+
 		}
 		
 	}
@@ -174,18 +192,24 @@ public class BankCLI {
 	private class TransactionRecord extends Command{
 		@Override
 		public void execute() {
-			int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
-			List<Transaction> transactionRecord = bank.findAccount(accountNr).getTransactions();
-			if(transactionRecord.size() == 0) {
-				ConsoleHelper.writeMessage("Error occurred");
-			} else {
-				ConsoleHelper.writeMessage("Transaction Record:");
-				ConsoleHelper.writeMessage("-------------------");
-				for(Transaction record : transactionRecord) {
-					ConsoleHelper.writeData(record);
+			try{
+				int accountNr = ConsoleHelper.readInteger("Account Nr.: > ");
+				List<Transaction> transactionRecord = bank.findAccount(accountNr).getTransactions();
+				if(transactionRecord.size() == 0) {
+					ConsoleHelper.writeMessage("Error occurred");
+				} else {
+					ConsoleHelper.writeMessage("Transaction Record:");
+					ConsoleHelper.writeMessage("-------------------");
+					for(Transaction record : transactionRecord) {
+						ConsoleHelper.writeData(record);
+					}
+					ConsoleHelper.writeMessage("-------------------");
 				}
-				ConsoleHelper.writeMessage("-------------------");
 			}
+			catch (BankException e){
+				ConsoleHelper.writeMessage("Error: " + e.getMessage());
+			}
+
 		}
 	}
 

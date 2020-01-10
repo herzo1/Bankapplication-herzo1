@@ -4,10 +4,10 @@ public interface ATMInterface {
 	
 	public String getName();
 	
-	public Double getBalance(int accountNr, String pin);
+	public Double getBalance(int accountNr, String pin) throws BankException;
 	
-	public boolean deposit(int accountNr, double amount);
+	public void deposit(int accountNr, double amount) throws BankException;
 	
-	public boolean withdraw(int accountNr, String pin, double amount);
+	public void withdraw(int accountNr, String pin, double amount) throws BankException;
 
 }

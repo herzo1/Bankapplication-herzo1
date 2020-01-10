@@ -24,11 +24,14 @@ public class SavingsAccount extends Account {
 	 * @param amount - the amount of money to withdraw
 	 * @return true if the withdrawal was successful, false otherwise
 	 */
-	protected boolean withdraw(double amount) {
-		if(amount > super.balance || amount > limit) { /* amount <= 0 get checked in the basis method */
-			return false;
+	protected void withdraw(double amount) throws BankException {
+	    if(amount > super.balance){
+	    	throw new BankException("Insufficient funds");
 		}
-		return super.withdraw(amount);
+	    if(amount > this.limit){
+	    	throw new BankException("Withdrawal limit exceeded");
+		}
+		super.withdraw(amount);
 	}
 	
 	/**
